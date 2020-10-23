@@ -151,8 +151,3 @@ function validEmailDup($email)
     }
 }
 
-
-$email1 = 'info@gmail.com';
-$email2 = 'nono@gmail.com';
-
-validEmailDup($email1);
