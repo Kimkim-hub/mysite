@@ -2,10 +2,8 @@
 //================================
 // log setting
 //================================
-
 ini_set('log_errors', 'on');
 ini_set('error_log', 'php.log');
-
 // debug
 $debug_flg = true;
 
@@ -13,34 +11,24 @@ function debug($str)
 {
     global $debug_flg;
     if ($debug_flg) {
-        error_log('デバッグ'.$str);
+        error_log('デバッグ' . $str);
     }
 }
-
-
 //================================
 // session setting
 //================================
-
 // session格納ディレクトリ変更(tmp下は30日保管可能)
 // session_save_path("var/tmp/");
-
 // ガベージコレクション有効期限変更
 ini_set('session.gc_maxlifetime', 60 * 60 * 24 * 30);
-
 // cookie延長
 ini_set('session.cookie_lifetime', 60 * 60 * 24 * 30);
-
 session_start();
 // セッション再生成
 session_regenerate_id();
-
-
 //================================
 // DB接続
 //================================
-
-
 try {
 
     $pdo = new PDO(
@@ -59,17 +47,11 @@ try {
     $e->getMessage();
 }
 
-
-
-
-
 //================================
 // バリデーション
 //================================
-
 // エラーメッセージ
 $err_msg = array();
-
 define('MSG00', 'エラーが発生しました。');
 define('MSG01', '入力必須です');
 define('MSG02', '255文字以内で入力してください');
@@ -78,7 +60,6 @@ define('MSG04', 'メールアドレス形式で入力してください');
 define('MSG05', 'パスワードが一致しません');
 define('MSG06', '半角英数字で入力してください');
 define('MSG07', '既に登録済みのemailです。');
-
 
 // 未入力チェック
 function validRequired($str)
@@ -89,7 +70,6 @@ function validRequired($str)
         var_dump($err_msg);
     }
 }
-
 // 最大文字数チェック
 function validMax($str, $max = 255)
 {
@@ -130,7 +110,6 @@ function validHalf($str)
         $err_msg = MSG06;
     }
 }
-
 // メアド重複チェック
 function validEmailDup($email)
 {
@@ -141,7 +120,7 @@ function validEmailDup($email)
         $stmt->bindValue(':email', $email, PDO::PARAM_STR);
         $stmt->execute();
         $result = $stmt->fetch();
-        if(array_shift($result)){
+        if (array_shift($result)) {
             $err_msg = MSG07;
             debug('email重複あり');
         }
@@ -150,4 +129,4 @@ function validEmailDup($email)
         $e->getMessage();
     }
 }
-
+// ログイン認証
